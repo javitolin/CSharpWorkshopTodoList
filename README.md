@@ -31,9 +31,8 @@ Each day is structured around a theme and includes a self-contained project or s
 - Learn about async/await and multi-threading
 - Add event support to the Todo project
 
-### **Day 4 – Dependency Injection + HTTP + Config + Hosting**
+### **Day 4 – Dependency Injection + Config + Hosting**
 - Create a console app with DI using `HostBuilder`
-- Expose HTTP endpoints using `Minimal APIs`
 - Use `IConfiguration` to load config from `appsettings.json`
 
 ### **Day 5 – Attributes, Reflection, Testing Web APIs**
@@ -47,11 +46,11 @@ Each day is structured around a theme and includes a self-contained project or s
 
 Each day contains a subfolder:
 
-- `Day1_CLI_Todo/`
-- `Day2_OOP_Tests_Collections/`
-- `Day3_Events_Async/`
-- `Day4_DI_HTTP_Config/`
-- `Day5_Attributes_Reflection_API/`
+- `FirstDay/`
+- `SecondDay/`
+- `ThirdDay/`
+- `FourthDay/`
+- `FifthDay/`
 
 Each project builds on the Todo app with new concepts introduced daily.
 
