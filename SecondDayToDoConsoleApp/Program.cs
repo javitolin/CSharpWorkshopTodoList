@@ -5,7 +5,7 @@
 
     class Program
     {
-        static ITaskManager TaskManager = new InMemoryTaskManager();
+        static ITaskManager<TaskItem> TaskManager = new InMemoryTaskManager();
 
         static void Main()
         {

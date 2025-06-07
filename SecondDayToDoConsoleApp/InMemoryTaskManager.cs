@@ -2,7 +2,7 @@
 
 namespace ToDoConsoleApp
 {
-    public class InMemoryTaskManager : ITaskManager
+    public class InMemoryTaskManager : ITaskManager<TaskItem>
     {
         private List<TaskItem> tasks = new List<TaskItem>();
         public void AddTask(TaskItem task)

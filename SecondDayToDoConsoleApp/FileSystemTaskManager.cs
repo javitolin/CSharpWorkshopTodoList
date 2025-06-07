@@ -5,7 +5,7 @@ using ToDoConsoleApp;
 
 namespace SecondDayToDoConsoleApp
 {
-    public class FileSystemTaskManager : ITaskManager
+    public class FileSystemTaskManager : ITaskManager<TaskItem>
     {
         private readonly string _filePath = "tasks.json";
         private IFileSystem _fileSystem;

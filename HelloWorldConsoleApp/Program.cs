@@ -20,7 +20,7 @@
                 return;
             }
 
-            Person person = new Person(usersName, age);
+            var person = new Person(usersName, age);
 
             Console.WriteLine(person);
         }

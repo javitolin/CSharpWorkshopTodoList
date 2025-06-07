@@ -1,6 +1,6 @@
 ﻿namespace ToDoConsoleApp
 {
-    public class TaskManager
+    public class TaskManager : ITaskManager
     {
         private List<TaskItem> tasks = new List<TaskItem>();
         public void AddTask(TaskItem task)
@@ -22,6 +22,7 @@
             var taskIndex = tasks.FindIndex(t => t.Id == taskId);
             if (taskIndex < 0)
                 return false;
+
             tasks[taskIndex] = updatedTask;
             return true;
         }

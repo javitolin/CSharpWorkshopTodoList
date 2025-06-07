@@ -3,12 +3,12 @@ using SecondDayToDoConsoleApp.Entities;
 
 namespace ToDoConsoleApp
 {
-    public interface ITaskManager
+    public interface ITaskManager<T> where T : TaskItem
     {
-        void AddTask(TaskItem task);
-        IEnumerable<TaskItem> GetAllTasks();
-        TaskItem? GetTaskById(Guid taskId);
+        void AddTask(T task);
+        IEnumerable<T> GetAllTasks();
+        T? GetTaskById(Guid taskId);
         bool RemoveTask(Guid taskId);
-        bool UpdateTask(Guid taskId, TaskItem updatedTask);
+        bool UpdateTask(Guid taskId, T updatedTask);
     }
 }

@@ -4,7 +4,7 @@
 
     class Program
     {
-        static TaskManager TaskManager = new TaskManager();
+        static ITaskManager TaskManager = new TaskManager();
 
         static void Main()
         {
@@ -33,8 +33,7 @@
                         DeleteTask();
                         break;
                     case "exit":
-                        Environment.Exit(0);
-                        break;
+                        return;
                     default:
                         Console.WriteLine($"Invalid option: [{choice}]. Press Enter to continue.");
                         Console.ReadLine();
@@ -59,13 +58,19 @@
             Console.Write("Enter task title: ");
             var title = Console.ReadLine();
 
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                Console.WriteLine("Title cannot be empty");
+                return;
+            }
+
             Console.Write("Enter task description (optional): ");
             var description = Console.ReadLine();
 
             var task = new TaskItem
             {
-                Title = title ?? "",
-                Description = string.IsNullOrWhiteSpace(description) ? null : description
+                Title = title,
+                Description = description
             };
 
             TaskManager.AddTask(task);
