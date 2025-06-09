@@ -12,14 +12,14 @@ namespace ToDoConsoleApp
 
         static async Task Main(string[] args)
         {
-            using var cts = new CancellationTokenSource();
-            var cancellationToken = cts.Token;
+            using var cancellationTokenSource = new CancellationTokenSource();
+            var cancellationToken = cancellationTokenSource.Token;
 
             Console.CancelKeyPress += (sender, eventArgs) =>
             {
                 Console.WriteLine("Cancellation requested...");
                 eventArgs.Cancel = true;
-                cts.Cancel();
+                cancellationTokenSource.Cancel();
             };
 
 
@@ -28,7 +28,7 @@ namespace ToDoConsoleApp
                 Console.WriteLine($"Task added: {task.Title}");
             };
 
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 PrintMenu();
 
