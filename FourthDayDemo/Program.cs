@@ -1,11 +1,9 @@
-﻿using System.IO.Abstractions;
-using ThirdDayToDoConsoleApp;
-using ThirdDayToDoConsoleApp.Entities;
-using ThirdDayToDoConsoleApp.Extensions;
-using ThirdDayToDoConsoleApp.IO.Interfaces;
+﻿using FourthDayDemo.Entities;
+using FourthDayDemo.IO;
+using FourthDayDemo.IO.Interfaces;
+using System.IO.Abstractions;
 
-
-namespace ToDoConsoleApp
+namespace FourthDayDemo
 {
     class Program
     {
@@ -62,7 +60,6 @@ namespace ToDoConsoleApp
         private static void TaskManagerOnTaskAdded(TaskItem task)
         {
             Console.WriteLine($"New task added (OnTaskAdded): {task}");
-            TaskManager.OnTaskAdded -= TaskManagerOnTaskAdded;
         }
 
         private static void PrintMenu()

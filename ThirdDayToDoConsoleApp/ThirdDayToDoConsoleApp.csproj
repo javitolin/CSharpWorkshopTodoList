@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ThirdDayToDoConsoleApp.Entities\ThirdDayToDoConsoleApp.Entities.csproj" />
+    <ProjectReference Include="..\ThirdDayToDoConsoleApp.Extensions\ThirdDayToDoConsoleApp.Extensions.csproj" />
     <ProjectReference Include="..\ThirdDayToDoConsoleApp.IO\ThirdDayToDoConsoleApp.IO.csproj" />
   </ItemGroup>
 

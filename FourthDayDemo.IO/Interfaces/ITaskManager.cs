@@ -1,6 +1,6 @@
-﻿using ThirdDayToDoConsoleApp.Entities;
+﻿using FourthDayDemo.Entities;
 
-namespace ThirdDayToDoConsoleApp.IO.Interfaces
+namespace FourthDayDemo.IO.Interfaces
 {
     public delegate void TaskItemHandler(TaskItem task);
 

@@ -14,11 +14,12 @@ namespace FourthDayToDoConsoleApp
             var host = Host.CreateDefaultBuilder(args)
                  .ConfigureAppConfiguration((context, config) =>
                  {
-                     // Optional: Add extra config sources here
+                     // 3. Optional: Add extra config sources here
                      config.AddJsonFile("appsettings.json", optional: true);
                      config.AddEnvironmentVariables();
                      config.AddCommandLine(args);
                  })
+                 // 2. Configure services
                 .ConfigureServices((context, services) =>
                 {
                     services.AddTransient<App>();
@@ -30,7 +31,7 @@ namespace FourthDayToDoConsoleApp
                 .GetRequiredService<IHostApplicationLifetime>()
                 .ApplicationStopping;
 
-            // 3. Run your app
+            // 4. Run your app
             var app = host.Services.GetRequiredService<App>();
 
             await app.RunAsync(cancellationToken);

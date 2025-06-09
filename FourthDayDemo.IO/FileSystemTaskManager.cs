@@ -1,9 +1,9 @@
-﻿using System.IO.Abstractions;
+﻿using FourthDayDemo.Entities;
+using FourthDayDemo.IO.Interfaces;
+using System.IO.Abstractions;
 using System.Text.Json;
-using ThirdDayToDoConsoleApp.Entities;
-using ThirdDayToDoConsoleApp.IO.Interfaces;
 
-namespace ThirdDayToDoConsoleApp
+namespace FourthDayDemo.IO
 {
     public class FileSystemTaskManager : ITaskManager
     {
