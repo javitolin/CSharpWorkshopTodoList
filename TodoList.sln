@@ -52,6 +52,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncAwaitDemoApp", "AsyncAwaitDemoApp\AsyncAwaitDemoApp.csproj", "{E6495ED0-2D14-49B4-9730-7D8E22162ED0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -126,6 +128,10 @@ Global
 		{D87456B4-480A-45D0-A552-EFED8C8B8351}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D87456B4-480A-45D0-A552-EFED8C8B8351}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D87456B4-480A-45D0-A552-EFED8C8B8351}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6495ED0-2D14-49B4-9730-7D8E22162ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6495ED0-2D14-49B4-9730-7D8E22162ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6495ED0-2D14-49B4-9730-7D8E22162ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6495ED0-2D14-49B4-9730-7D8E22162ED0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,6 +154,7 @@ Global
 		{BFD24A31-7C9E-478E-8E98-145F6D4AD0C3} = {12301B6F-4A2E-447B-BF21-407C096E5C8E}
 		{6740491B-3A9D-4D6A-B9A6-BF252D2B3B73} = {12301B6F-4A2E-447B-BF21-407C096E5C8E}
 		{D87456B4-480A-45D0-A552-EFED8C8B8351} = {12301B6F-4A2E-447B-BF21-407C096E5C8E}
+		{E6495ED0-2D14-49B4-9730-7D8E22162ED0} = {B2FD21BB-FB48-47BE-AE67-66B46A814A46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90A4C925-33C8-4BAE-B201-EE8BD31ACAE2}

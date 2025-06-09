@@ -37,11 +37,13 @@ namespace ToDoConsoleApp.Tests
     {
         private FileSystemFixture _fixture;
         private IFileSystem _fileSystem;
+        private CancellationToken _cancellationToken;
 
         public FileSystemTaskManagerTests(FileSystemFixture fixture)
         {
             _fileSystem = fixture.FileManager;
             _fixture = fixture;
+            _cancellationToken = CancellationToken.None;
         }
 
         [Fact]
@@ -52,9 +54,9 @@ namespace ToDoConsoleApp.Tests
             var task = new TaskItem { Id = Guid.NewGuid(), Title = "Test Task" };
             var toWrite = JsonSerializer.Serialize(new List<TaskItem> { task }, new JsonSerializerOptions { WriteIndented = true });
 
-            await manager.AddTask(task);
+            await manager.AddTaskAsync(task, _cancellationToken);
 
-            var allTasks = (await manager.GetAllTasks()).ToList();
+            var allTasks = (await manager.GetAllTasksAsync(_cancellationToken)).ToList();
             Assert.Single(allTasks);
             Assert.Equal(task.Id, allTasks[0].Id);
             Assert.Equal("Test Task", allTasks[0].Title);
@@ -65,12 +67,12 @@ namespace ToDoConsoleApp.Tests
         {
             var manager = new FileSystemTaskManager(_fileSystem);
             var task = new TaskItem { Id = Guid.NewGuid(), Title = "Task to Remove" };
-            await manager.AddTask(task);
+            await manager.AddTaskAsync(task, _cancellationToken);
 
-            var result = await manager.RemoveTask(task.Id);
+            var result = await manager.RemoveTaskAsync(task.Id, _cancellationToken);
 
             Assert.True(result);
-            Assert.Empty(await manager.GetAllTasks());
+            Assert.Empty(await manager.GetAllTasksAsync(_cancellationToken));
         }
 
         [Fact]
@@ -78,7 +80,7 @@ namespace ToDoConsoleApp.Tests
         {
             var manager = new FileSystemTaskManager(_fileSystem);
 
-            var result = await manager.RemoveTask(Guid.NewGuid());
+            var result = await manager.RemoveTaskAsync(Guid.NewGuid(), _cancellationToken);
 
             Assert.False(result);
         }
@@ -88,13 +90,13 @@ namespace ToDoConsoleApp.Tests
         {
             var manager = new FileSystemTaskManager(_fileSystem);
             var task = new TaskItem { Id = Guid.NewGuid(), Title = "Old Title" };
-            await manager.AddTask(task);
+            await manager.AddTaskAsync(task, _cancellationToken);
 
             var updatedTask = new TaskItem { Id = task.Id, Title = "New Title" };
-            var result = await manager.UpdateTask(task.Id, updatedTask);
+            var result = await manager.UpdateTask(task.Id, updatedTask, _cancellationToken);
 
             Assert.True(result);
-            var fetched = await manager.GetTaskById(task.Id);
+            var fetched = await manager.GetTaskByIdAsync(task.Id, _cancellationToken);
             Assert.NotNull(fetched);
             Assert.Equal("New Title", fetched.Title);
         }
@@ -105,7 +107,7 @@ namespace ToDoConsoleApp.Tests
             var manager = new FileSystemTaskManager(_fileSystem);
             var updatedTask = new TaskItem { Id = Guid.NewGuid(), Title = "Doesn't Matter" };
 
-            var result = await manager.UpdateTask(updatedTask.Id, updatedTask);
+            var result = await manager.UpdateTask(updatedTask.Id, updatedTask, _cancellationToken);
 
             Assert.False(result);
         }
@@ -116,10 +118,10 @@ namespace ToDoConsoleApp.Tests
             var manager = new FileSystemTaskManager(_fileSystem)    ;
             var task1 = new TaskItem { Id = Guid.NewGuid(), Title = "Task 1" };
             var task2 = new TaskItem { Id = Guid.NewGuid(), Title = "Task 2" };
-            await manager.AddTask(task1);
-            await manager.AddTask(task2);
+            await manager.AddTaskAsync(task1, _cancellationToken);
+            await manager.AddTaskAsync(task2, _cancellationToken);
 
-            var allTasks = (await manager.GetAllTasks()).ToList();
+            var allTasks = (await manager.GetAllTasksAsync(_cancellationToken)).ToList();
 
             Assert.Equal(2, allTasks.Count);
             Assert.Contains(allTasks, t => t.Id == task1.Id);
@@ -131,9 +133,9 @@ namespace ToDoConsoleApp.Tests
         {
             var manager = new FileSystemTaskManager(_fileSystem)    ;
             var task = new TaskItem { Id = Guid.NewGuid(), Title = "Find Me" };
-            await manager.AddTask(task);
+            await manager.AddTaskAsync(task, _cancellationToken);
 
-            var found = await manager.GetTaskById(task.Id);
+            var found = await manager.GetTaskByIdAsync(task.Id, _cancellationToken);
 
             Assert.NotNull(found);
             Assert.Equal(task.Id, found.Id);
@@ -144,7 +146,7 @@ namespace ToDoConsoleApp.Tests
         {
             var manager = new FileSystemTaskManager(_fileSystem);
 
-            var found = await manager.GetTaskById(Guid.NewGuid());
+            var found = await manager.GetTaskByIdAsync(Guid.NewGuid(), _cancellationToken);
 
             Assert.Null(found);
         }

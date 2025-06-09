@@ -3,22 +3,31 @@ using Xunit;
 
 namespace ToDoConsoleApp.Tests
 {
-public class InMemoryTaskManagerTests
-{
+public class TaskManagerTests
+     {
 
         [Fact]
-        public void AddTask_FirstTaskAdded_TaskAdded()
+        public void AddTask_OneCorrectTask_TaskAdded()
         {
+            // Arrange
             var manager = new InMemoryTaskManager();
             var task = new TaskItem { Id = Guid.NewGuid(), Title = "Test Task" };
 
+            // Act
             manager.AddTask(task);
 
+            // Assert
             var allTasks = manager.GetAllTasks().ToList();
             Assert.Single(allTasks);
             Assert.Equal(task.Id, allTasks[0].Id);
             Assert.Equal("Test Task", allTasks[0].Title);
         }
+
+
+
+
+
+
 
         [Fact]
         public void RemoveTask_TaskExists_TaskRemoved()

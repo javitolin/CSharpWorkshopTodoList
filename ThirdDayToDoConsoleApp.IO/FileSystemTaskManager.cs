@@ -1,5 +1,6 @@
 ﻿using System.IO.Abstractions;
 using System.Text.Json;
+using System.Threading;
 using ThirdDayToDoConsoleApp.Entities;
 using ThirdDayToDoConsoleApp.IO.Interfaces;
 
@@ -17,54 +18,54 @@ namespace ThirdDayToDoConsoleApp
 
         public event TaskAddedHandler? TaskAdded;
 
-        public async Task AddTask(TaskItem task)
+        public async Task AddTaskAsync(TaskItem task, CancellationToken cancellationToken)
         {
-            var tasks = await LoadTasks();
+            var tasks = await LoadTasksAsync(cancellationToken);
             if (task.Id == Guid.Empty)
                 task.Id = Guid.NewGuid();
 
             tasks.Add(task);
-            await SaveTasks(tasks);
+            await SaveTasksAsync(tasks, cancellationToken);
 
             TaskAdded?.Invoke(task);
         }
 
-        public async Task<IEnumerable<TaskItem>> GetAllTasks()
+        public async Task<IEnumerable<TaskItem>> GetAllTasksAsync(CancellationToken cancellationToken)
         {
-            return await LoadTasks();
+            return await LoadTasksAsync(cancellationToken);
         }
 
-        public async Task<TaskItem?> GetTaskById(Guid taskId)
+        public async Task<TaskItem?> GetTaskByIdAsync(Guid taskId, CancellationToken cancellationToken)
         {
-            var tasks = await LoadTasks();
+            var tasks = await LoadTasksAsync(cancellationToken);
             return tasks.FirstOrDefault(t => t.Id == taskId);
         }
 
-        public async Task<bool> RemoveTask(Guid taskId)
+        public async Task<bool> RemoveTaskAsync(Guid taskId, CancellationToken cancellationToken)
         {
-            var tasks = await LoadTasks();
+            var tasks = await LoadTasksAsync(cancellationToken);
             var task = tasks.FirstOrDefault(t => t.Id == taskId);
             if (task == null)
                 return false;
 
             tasks.Remove(task);
-            await SaveTasks(tasks);
+            await SaveTasksAsync(tasks, cancellationToken);
             return true;
         }
 
-        public async Task<bool> UpdateTask(Guid taskId, TaskItem updatedTask)
+        public async Task<bool> UpdateTask(Guid taskId, TaskItem updatedTask, CancellationToken cancellationToken)
         {
-            var tasks = await LoadTasks();
+            var tasks = await LoadTasksAsync(cancellationToken);
             var index = tasks.FindIndex(t => t.Id == taskId);
             if (index == -1)
                 return false;
 
             tasks[index] = updatedTask;
-            await SaveTasks(tasks);
+            await SaveTasksAsync(tasks, cancellationToken);
             return true;
         }
 
-        private Task<List<TaskItem>> LoadTasks()
+        private Task<List<TaskItem>> LoadTasksAsync(CancellationToken cancellationToken)
         {
             return Task.Run(() =>
             {
@@ -76,16 +77,16 @@ namespace ThirdDayToDoConsoleApp
                     return new List<TaskItem>();
 
                 return JsonSerializer.Deserialize<List<TaskItem>>(json) ?? new List<TaskItem>();
-            });
+            }, cancellationToken);
         }
 
-        private Task SaveTasks(List<TaskItem> tasks)
+        private Task SaveTasksAsync(List<TaskItem> tasks, CancellationToken cancellationToken)
         {
             return Task.Run(() =>
             {
                 var json = JsonSerializer.Serialize(tasks, new JsonSerializerOptions { WriteIndented = true });
                 _fileSystem.File.WriteAllText(_filePath, json);
-            });
+            }, cancellationToken);
 
         }
     }

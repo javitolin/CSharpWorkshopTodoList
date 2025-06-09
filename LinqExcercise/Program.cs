@@ -6,6 +6,22 @@ namespace LinqExcercise
     {
         static void Main(string[] args)
         {
+            FileSystemDemo fileSystemDemo = new FileSystemDemo();
+            Console.WriteLine("PRINTING ALL FILES");
+            fileSystemDemo.PrintAllFiles(@"C:\Projects");
+            Console.WriteLine("DONE PRINTING ALL FILES");
+
+            Console.WriteLine("ENUMERATING ALL FILES");
+            fileSystemDemo.EnumerateAllFiles(@"C:\Projects");
+            Console.WriteLine("DONE ENUMERATING ALL FILES");
+            return;
+
+
+
+
+
+
+
             List<TaskItem> tasks = new()
             {
                 new TaskItem { Title = "Fix television" },
@@ -19,8 +35,7 @@ namespace LinqExcercise
             // 1. Return all tasks where the title starts with "Fix".
             var tasksStartingWithFix = tasks.Where(task => task.Title.ToLower().StartsWith("fix")).ToList();
             PrintList(tasksStartingWithFix, "Tasks starting with fix");
-            Console.WriteLine($"------------------------------");
-
+  
 
             // 2. Get all titles of tasks that have a non-empty description.
             var titlesWithDescription = tasks
@@ -28,13 +43,11 @@ namespace LinqExcercise
                 .Select(task => task.Title)
                 .ToList();
             PrintList(titlesWithDescription, "Titles of tasks with description");
-            Console.WriteLine($"------------------------------");
 
             // 3. Count how many tasks have the word "urgent" in the description.
             var urgentCount = tasks
-                .Count(task => task.Description != null && task.Description.ToLower().Contains("urgent"));
+                .Count(task => task.Description is not null && task.Description.ToLower().Contains("urgent"));
             Console.WriteLine($"Number of tasks with 'urgent' in the description: {urgentCount}");
-            Console.WriteLine($"------------------------------");
 
             // 4. Return a list of IDs of tasks whose title is longer than 20 characters.
             var longTitleTaskIds = tasks
@@ -42,24 +55,24 @@ namespace LinqExcercise
                 .Select(task => task.Id)
                 .ToList();
             PrintList(longTitleTaskIds, "IDs of long title tasks");
-            Console.WriteLine($"------------------------------");
 
             // 5. Return the task with the longest description.
             var taskWithLongestDescription = tasks
-                .Where(task => task.Description != null)
+                .Where(task => task.Description is not null)
                 .OrderByDescending(task => task.Description?.Length)
                 .FirstOrDefault();
             Console.WriteLine($"Task with the longest description: [{taskWithLongestDescription}]");
-            Console.WriteLine($"------------------------------");
 
             // 6. Group tasks by the first letter of the title.
             var groupedTasks = tasks
-                .GroupBy(task => task.Title[0].ToString().ToLower())
+                .GroupBy(task => task.Title.First().ToString().ToLower())
                 .ToDictionary(group => group.Key, group => group.ToList());
+
             foreach (var group in groupedTasks)
             {
                 PrintList(group.Value, $"Tasks starting with '{group.Key}'");
             }
+
             Console.WriteLine($"------------------------------");
 
         }
@@ -71,6 +84,7 @@ namespace LinqExcercise
             {
                 Console.WriteLine($"\t{item}");
             }
+            Console.WriteLine("-----------------------------------");
         }
     }
 }

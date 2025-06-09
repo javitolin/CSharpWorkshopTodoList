@@ -1,5 +1,6 @@
 ﻿
 
+using System.Threading;
 using ThirdDayToDoConsoleApp.Entities;
 
 namespace ThirdDayToDoConsoleApp.IO.Interfaces
@@ -10,10 +11,10 @@ namespace ThirdDayToDoConsoleApp.IO.Interfaces
     {
         public event TaskAddedHandler? TaskAdded;
 
-        Task AddTask(TaskItem task);
-        Task<IEnumerable<TaskItem>> GetAllTasks();
-        Task<TaskItem?> GetTaskById(Guid taskId);
-        Task<bool> RemoveTask(Guid taskId);
-        Task<bool> UpdateTask(Guid taskId, TaskItem updatedTask);
+        Task AddTaskAsync(TaskItem task, CancellationToken cancellationToken);
+        Task<IEnumerable<TaskItem>> GetAllTasksAsync(CancellationToken cancellationToken);
+        Task<TaskItem?> GetTaskByIdAsync(Guid taskId, CancellationToken cancellationToken);
+        Task<bool> RemoveTaskAsync(Guid taskId, CancellationToken cancellationToken);
+        Task<bool> UpdateTask(Guid taskId, TaskItem updatedTask, CancellationToken cancellationToken);
     }
 }

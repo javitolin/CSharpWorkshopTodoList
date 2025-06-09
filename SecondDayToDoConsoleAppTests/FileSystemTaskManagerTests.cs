@@ -10,22 +10,25 @@ namespace ToDoConsoleApp.Tests
 
     public class FileSystemFixture : IDisposable
     {
-        public IFileSystem FileManager { get; private set; }
+        public Mock<IFileSystem> FileSystemMock { get; private set; }
         private string fileContent = "";
 
         public FileSystemFixture()
         {
             var fileMock = new Mock<IFile>();
             fileMock.Setup(f => f.Exists(It.IsAny<string>())).Returns(true);
-            fileMock.Setup(f => f.ReadAllText(It.IsAny<string>())).Returns(() => fileContent);
+
+            fileMock.Setup(f => f.ReadAllText(It.IsAny<string>()))
+                .Returns(() => fileContent);
+
             fileMock.Setup(f => f.WriteAllText(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback<string, string>((path, text) => fileContent = text);
 
 
-            var fileSystemMock = new Mock<IFileSystem>();
-            fileSystemMock.Setup(fs => fs.File).Returns(fileMock.Object);
+            var iFileSystem = new Mock<IFileSystem>();
+            iFileSystem.Setup(fs => fs.File).Returns(fileMock.Object);
 
-            FileManager = fileSystemMock.Object;
+            FileSystemMock = iFileSystem;
         }
 
         public void Dispose()
@@ -41,14 +44,14 @@ namespace ToDoConsoleApp.Tests
 
         public FileSystemTaskManagerTests(FileSystemFixture fixture)
         {
-            _fileSystem = fixture.FileManager;
+            _fileSystem = fixture.FileSystemMock.Object;
             _fixture = fixture;
         }
 
         [Fact]
         public void AddTask_FirstTaskAdded_TaskAdded()
         {
-            var manager = new FileSystemTaskManager(_fileSystem);
+            var manager = new FileSystemTaskManager(_fixture.FileSystemMock.Object);
 
             var task = new TaskItem { Id = Guid.NewGuid(), Title = "Test Task" };
             var toWrite = JsonSerializer.Serialize(new List<TaskItem> { task }, new JsonSerializerOptions { WriteIndented = true });
@@ -59,6 +62,7 @@ namespace ToDoConsoleApp.Tests
             Assert.Single(allTasks);
             Assert.Equal(task.Id, allTasks[0].Id);
             Assert.Equal("Test Task", allTasks[0].Title);
+
         }
 
         [Fact]

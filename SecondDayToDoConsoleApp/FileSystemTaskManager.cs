@@ -65,7 +65,7 @@ namespace SecondDayToDoConsoleApp
             if (!_fileSystem.File.Exists(_filePath))
                 return new List<TaskItem>();
 
-            var json = _fileSystem.File.ReadAllText(_filePath);
+            var json = _fileSystem.File.ReadAllText(_filePath); // This loads all file to memory.
             if (string.IsNullOrWhiteSpace(json)) 
                 return new List<TaskItem>();
 

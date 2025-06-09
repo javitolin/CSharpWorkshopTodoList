@@ -10,8 +10,19 @@ namespace ToDoConsoleApp
     {
         static ITaskManager TaskManager = new FileSystemTaskManager(new FileSystem());
 
-        static void Main()
+        static async Task Main(string[] args)
         {
+            using var cts = new CancellationTokenSource();
+            var cancellationToken = cts.Token;
+
+            Console.CancelKeyPress += (sender, eventArgs) =>
+            {
+                Console.WriteLine("Cancellation requested...");
+                eventArgs.Cancel = true;
+                cts.Cancel();
+            };
+
+
             TaskManager.TaskAdded += (task) =>
             {
                 Console.WriteLine($"Task added: {task.Title}");
@@ -33,13 +44,13 @@ namespace ToDoConsoleApp
                 switch (choice)
                 {
                     case "add":
-                        AddTask();
+                        await AddTaskAsync(cancellationToken);
                         break;
                     case "list":
-                        ListTasks();
+                        await ListTasksAsync(cancellationToken);
                         break;
                     case "delete":
-                        DeleteTask();
+                        await DeleteTaskAsync(cancellationToken);
                         break;
                     case "exit":
                         Environment.Exit(0);
@@ -63,7 +74,7 @@ namespace ToDoConsoleApp
             Console.Write("Choose an option: ");
         }
 
-        static void AddTask()
+        static async Task AddTaskAsync(CancellationToken cancellationToken)
         {
             Console.Write("Enter task title: ");
             var title = Console.ReadLine();
@@ -77,15 +88,15 @@ namespace ToDoConsoleApp
                 Description = string.IsNullOrWhiteSpace(description) ? null : description
             };
 
-            TaskManager.AddTask(task);
+            await TaskManager.AddTaskAsync(task, cancellationToken);
 
             Console.WriteLine("Task added! Press Enter to return to menu.");
             Console.ReadLine();
         }
 
-        static void ListTasks()
+        static async Task ListTasksAsync(CancellationToken cancellationToken)
         {
-            var tasks = TaskManager.GetAllTasks();
+            var tasks = await TaskManager.GetAllTasksAsync(cancellationToken);
             if (tasks.Count() == 0)
             {
                 Console.WriteLine("No tasks yet!");
@@ -101,14 +112,14 @@ namespace ToDoConsoleApp
             Console.ReadLine();
         }
 
-        static void DeleteTask()
+        static async Task DeleteTaskAsync(CancellationToken cancellationToken)
         {
             Console.Write("Enter task ID to delete: ");
             var input = Console.ReadLine();
 
             if (Guid.TryParse(input, out var id))
             {
-                var success = TaskManager.RemoveTask(id);
+                var success = await TaskManager.RemoveTaskAsync(id, cancellationToken);
                 var message = success ? "Task deleted successfully!" : "Task not found.";
                 Console.WriteLine(message);
             }
