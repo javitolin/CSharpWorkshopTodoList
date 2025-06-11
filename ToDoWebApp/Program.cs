@@ -2,6 +2,7 @@
 using System.IO.Abstractions;
 using ToDoWebApp.IO;
 using ToDoWebApp.IO.Interfaces;
+using ToDoWebApp.Middleware;
 
 namespace ToDoWebApp
 {
@@ -28,10 +29,9 @@ namespace ToDoWebApp
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

@@ -8,7 +8,8 @@ using Xunit;
 
 namespace ToDoWebAppTests.Controllers
 {
-    public class  CustomWebApplicationFactory:WebApplicationFactory<Program>
+    //Microsoft.AspNetCore.Mvc.Testing
+    public class  CustomWebApplicationFactory : WebApplicationFactory<Program> // no need oto
     {
         private string fileContent = "";
 
@@ -30,11 +31,11 @@ namespace ToDoWebAppTests.Controllers
                 var descriptor = services.SingleOrDefault(
                     d => d.ServiceType == typeof(IFileSystem));
 
-                if (descriptor != null)
+                if (descriptor is not null)
                     services.Remove(descriptor);
 
                 // Add your mocked version
-                services.AddSingleton(fileSystemMock.Object);
+                services.AddSingleton<IFileSystem>(fileSystemMock.Object);
             });
         }
 

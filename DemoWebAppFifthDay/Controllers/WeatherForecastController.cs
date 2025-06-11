@@ -29,5 +29,11 @@ namespace DemoWebAppFifthDay.Controllers
             })
             .ToArray();
         }
+
+        [HttpPost]
+        public ActionResult Add([FromBody] WeatherForecast weatherForecast)
+        {
+            return Ok();
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Threading;
 using ToDoWebApp.Entities;
 
 namespace TodoWebApp.Client
@@ -130,7 +131,7 @@ namespace TodoWebApp.Client
 
             if (Guid.TryParse(input, out var id))
             {
-                var success = await _httpClient.DeleteAsync($"Tasks/{id}");
+                var success = await _httpClient.DeleteAsync($"Tasks/{id}", cancellationToken);
                 var message = success.IsSuccessStatusCode ? "Task deleted successfully!" : "Task not found.";
                 Console.WriteLine(message);
             }

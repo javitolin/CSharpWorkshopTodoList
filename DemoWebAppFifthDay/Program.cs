@@ -1,4 +1,6 @@
 
+using DemoWebAppFifthDay.Middlewares;
+
 namespace DemoWebAppFifthDay
 {
     public class Program
@@ -23,12 +25,20 @@ namespace DemoWebAppFifthDay
                 app.UseSwaggerUI();
             }
 
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             app.UseAuthorization();
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
 
             app.MapControllers();
 
             app.Run();
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Console.WriteLine("NNoooooOOooo");
         }
     }
 }
