@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="System.IO.Abstractions" Version="22.0.14" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.9.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FourthDayToDoConsoleApp.Entities\FourthDayToDoConsoleApp.Entities.csproj" />
+    <ProjectReference Include="..\FourthDayToDoConsoleApp.IO\FourthDayToDoConsoleApp.IO.csproj" />
+    <ProjectReference Include="..\ToDoWebApp\ToDoWebApp.csproj" />
+  </ItemGroup>
+
 </Project>
