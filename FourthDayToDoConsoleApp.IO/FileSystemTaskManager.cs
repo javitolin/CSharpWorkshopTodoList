@@ -4,6 +4,7 @@ using FourthDayToDoConsoleApp.Entities;
 using FourthDayToDoConsoleApp.IO.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace FourthDayToDoConsoleApp
 {
@@ -13,12 +14,12 @@ namespace FourthDayToDoConsoleApp
         private ILogger<FileSystemTaskManager> _logger;
         private IFileSystem _fileSystem;
 
-        public FileSystemTaskManager(IConfiguration configuration, ILogger<FileSystemTaskManager> logger, IFileSystem fileSystem)
+        public FileSystemTaskManager(IOptions<TaskManagerSettings> taskManagerSettings, ILogger<FileSystemTaskManager> logger, IFileSystem fileSystem)
         {
             _logger = logger;
             _fileSystem = fileSystem;
 
-            _filePath = configuration["filename"] ?? "tasks.json";
+            _filePath = taskManagerSettings.Value.Filename;
 
             _logger.LogInformation("FileSystemTaskManager initialized with file path: {FilePath}", _filePath);
         }

@@ -1,0 +1,15 @@
+GET: http://localhost:3000/TaskItems <- List<TaskItems>
+GET: http://localhost:3000/TaskItems?orderby=title <- List<TaskItems> - ordered by title
+
+GET: http://localhost:3000/TaskItems/{id} <- TaskItem?
+GET: http://localhost:3000/TaskItems/{id}/title <- str?
+
+POST: http://localhost:3000/TaskItems
+        Body: {"Title": "title", "Description": "description"}
+
+PUT: http://localhost:3000/TaskItems/{id}
+        Body: {"Title": "title", "Description": "description"}
+
+
+DELETE: http://localhost:3000/TaskItems/{id}
+

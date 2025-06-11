@@ -1,0 +1,6 @@
+@DemoWebAppFifthDay_HostAddress = http://localhost:5051
+
+GET {{DemoWebAppFifthDay_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
